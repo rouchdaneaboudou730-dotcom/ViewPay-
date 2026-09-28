@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewPay - Plateforme de Vidéos Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #ec4899;
+            --dark-bg: #0f172a;
+            --light-text: #f1f5f9;
+            --gray-text: #cbd5e1;
+            --card-bg: #1e293b;
+            --hover-color: #4f46e5;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(100, 102, 241, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--gray-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--gray-text);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.9rem 2.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 16px;
+            border: 1px solid rgba(100, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-top: 2rem;
+        }
+
+        /* ===== VIDEOS SECTION ===== */
+        .videos-section {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(100, 102, 241, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            border-color: rgba(100, 102, 241, 0.3);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-card:hover .play-button {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.9rem;
+            color: var(--gray-text);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--gray-text);
+        }
+
+        .btn-watch {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-watch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* ===== HOW IT WORKS SECTION ===== */
+        .how-it-works {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 16px;
+            border: 1px solid rgba(100, 102, 241, 0.2);
+        }
+
+        .how-it-works h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(100, 102, 241, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--gray-text);
+            font-size: 0.95rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid rgba(100, 102, 241, 0.1);
+            padding: 3rem 2rem 1rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--gray-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(100, 102, 241, 0.1);
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .btn-login, .btn-signup {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                gap: 1rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--dark-bg);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem;
+                border-bottom: 1px solid rgba(100, 102, 241, 0.1);
+                z-index: 50;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li {
+                padding: 0.75rem 0;
+                border-bottom: 1px solid rgba(100, 102, 241, 0.1);
+            }
+
+            .auth-buttons {
+                display: none;
+            }
+
+            .auth-buttons.active {
+                display: flex;
+                position: absolute;
+                top: 200px;
+                left: 1rem;
+                right: 1rem;
+                gap: 0.5rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+                min-height: 400px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-image {
+                height: 250px;
+                font-size: 2.5rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .how-it-works {
+                padding: 1.5rem 1rem;
+            }
+
+            .how-it-works h2 {
+                font-size: 1.5rem;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .step {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .footer-section h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <div class="logo-icon">V</div>
+                <span>ViewPay</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#videos">Vidéos</a></li>
+            </ul>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn-login">Connexion</button>
+                <button class="btn-signup">Inscription</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <h1>Découvrez ViewPay</h1>
+            <p>La plateforme premium pour regarder et partager des vidéos de qualité. Accès illimité à du contenu exclusif et de grande qualité.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollToSection('videos')">Commencer</button>
+                <button class="btn-secondary">En savoir plus</button>
+            </div>
+        </div>
+        <div class="hero-image">🎬</div>
+    </section>
+
+    <!-- VIDEOS SECTION -->
+    <section class="videos-section" id="videos">
+        <h2 class="section-title">Nos Vidéos Populaires</h2>
+        <div class="videos-grid">
+            <!-- Video Card 1 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    📹
+                    <div class="play-button">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Tutoriel Complet</h3>
+                    <p class="video-description">Apprenez les bases de la plateforme ViewPay en 10 minutes</p>
+                    <div class="video-meta">
+                        <span>10:45 min</span>
+                        <button class="btn-watch">Regarder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Card 2 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    🎓
+                    <div class="play-button">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Formation Premium</h3>
+                    <p class="video-description">Cours avancé pour maîtriser toutes les fonctionnalités</p>
+                    <div class="video-meta">
+                        <span>45:30 min</span>
+                        <button class="btn-watch">Regarder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Card 3 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    💡
+                    <div class="play-button">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Conseils & Astuces</h3>
+                    <p class="video-description">Découvrez les meilleurs tips pour optimiser votre expérience</p>
+                    <div class="video-meta">
+                        <span>15:20 min</span>
+                        <button class="btn-watch">Regarder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Card 4 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    🚀
+                    <div class="play-button">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Débuter avec ViewPay</h3>
+                    <p class="video-description">Un guide étape par étape pour les débutants</p>
+                    <div class="video-meta">
+                        <span>8:15 min</span>
+                        <button class="btn-watch">Regarder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Card 5 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    ⭐
+                    <div class="play-button">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Témoignages Clients</h3>
+                    <p class="video-description">Écoutez ce que nos utilisateurs pensent de la plateforme</p>
+                    <div class="video-meta">
+                        <span>22:10 min</span>
+                        <button class="btn-watch">Regarder</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Card 6 -->
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    🎯
+                    <div class="play-button">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">Cas d'Usage Réels</h3>
+                    <p class="video-description">Découvrez comment les pros utilisent ViewPay</p>
+                    <div class="video-meta">
+                        <span>18:45 min</span>
+                        <button class="btn-watch">Regarder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="how-it-works">
+        <h2>Comment Fonctionne ViewPay</h2>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Inscrivez-vous</h3>
+                <p>Créez votre compte en quelques secondes. C'est simple, gratuit et sécurisé.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Explorez le Contenu</h3>
+                <p>Parcourez notre large catalogue de vidéos premium et trouvez ce qui vous intéresse.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Regardez en Illimité</h3>
+                <p>Profitez d'un accès illimité au contenu exclusif sans publicités intrusives.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Partagez & Gagnez</h3>
+                <p>Partagez votre passion pour les vidéos et gagnez des récompenses avec ViewPay.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À Propos</h3>
+                <p style="color: var(--gray-text); font-size: 0.9rem; margin-top: 1rem;">ViewPay est une plateforme premium dédiée aux vidéos de qualité. Nous mettons en avant les meilleurs créateurs et contenus.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#videos">Vidéos Populaires</a></li>
+                    <li><a href="#">Qui sommes-nous</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Légal</h3>
+                <ul>
+                    <li><a href="#">Conditions d'Utilisation</a></li>
+                    <li><a href="#">Politique de Confidentialité</a></li>
+                    <li><a href="#">Cookies</a></li>
+                    <li><a href="#">Mentions Légales</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Nous Suivre</h3>
+                <p style="color: var(--gray-text); font-size: 0.9rem; margin-bottom: 1rem;">Restez connecté avec nous</p>
+                <div class="social-links">
+                    <div class="social-icon">f</div>
+                    <div class="social-icon">𝕏</div>
+                    <div class="social-icon">📷</div>
+                    <div class="social-icon">▶</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ViewPay. Tous droits réservés. Une plateforme indépendante et originale.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== MOBILE MENU TOGGLE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        const authButtons = document.getElementById('authButtons');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            authButtons.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                authButtons.classList.remove('active');
+            });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // ===== WATCH BUTTON INTERACTIONS =====
+        document.querySelectorAll('.btn-watch').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Lecteur vidéo - Bientôt disponible !');
+            });
+        });
+
+        // ===== VIDEO CARD CLICK EFFECT =====
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // This could open a video modal or navigate to video page
+                console.log('Video card clicked');
+            });
+        });
+
+        // ===== BUTTON INTERACTIONS =====
+        document.querySelectorAll('.btn-login').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Connexion - Bientôt disponible !');
+            });
+        });
+
+        document.querySelectorAll('.btn-signup').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Inscription - Bientôt disponible !');
+            });
+        });
+
+        // ===== ADD ANIMATION ON SCROLL =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe video cards and steps
+        document.querySelectorAll('.video-card, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // ===== HEADER SCROLL EFFECT =====
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                header.style.boxShadow = '0 5px 30px rgba(99, 102, 241, 0.1)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+    </script>
+</body>
+</html>
